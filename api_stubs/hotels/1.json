@@ -1,0 +1,21 @@
+{
+  "$schema": "https://gist.githubusercontent.com/jbactad/2fdd188cfbd924f91d180dcf71c4b07c/raw/25aaa773208be3ff535b06500cc032bf4328ecc2/stub.json",
+  "request": {
+    "url": "/hotels/1",
+    "headers": {
+      "Accept": {
+        "equalTo": "application/json"
+      }
+    }
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "hotel_id": 1,
+      "name": "Hotel California",
+      "destination_id": 1
+    }
+  }
+}

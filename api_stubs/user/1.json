@@ -1,0 +1,41 @@
+{
+  "$schema": "https://gist.githubusercontent.com/jbactad/2fdd188cfbd924f91d180dcf71c4b07c/raw/25aaa773208be3ff535b06500cc032bf4328ecc2/stub.json",
+  "request": {
+    "url": "/user/1",
+    "headers": {
+      "Accept": {
+        "equalTo": "application/json"
+      },
+      "X-Api-Key":{
+        "contains": "Bearer"
+      }
+    }
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id_user": 1,
+      "firstName": "John",
+      "lastName": "Smith",
+      "age": 25,
+      "address": {
+        "streetAddress": "21 2nd Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": "10021"
+      },
+      "phoneNumber": [
+        {
+          "type": "home",
+          "number": "212 555-1234"
+        },
+        {
+          "type": "fax",
+          "number": "646 555-4567"
+        }
+      ]
+    }
+  }
+}

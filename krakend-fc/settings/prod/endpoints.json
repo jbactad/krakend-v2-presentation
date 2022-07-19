@@ -1,0 +1,207 @@
+{
+  "public": [
+    {
+      "endpoint": "/splash",
+      "input_headers": [
+        "Accept"
+      ],
+      "backend": [
+        {
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "url_pattern": "/shop/campaigns",
+          "allow": [
+            "campaigns"
+          ]
+        },
+        {
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "url_pattern": "/shop/products",
+          "allow": [
+            "products"
+          ],
+          "extra_config": {
+            "qos/ratelimit/proxy": {
+              "max_rate": 1,
+              "capacity": 1
+            }
+          }
+        }
+      ],
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 2
+        }
+      }
+    },
+    {
+      "endpoint": "/sequential/{id}",
+      "input_headers": [
+        "Accept"
+      ],
+      "backend": [
+        {
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "url_pattern": "/hotels/{id}",
+          "allow": [
+            "destination_id"
+          ]
+        },
+        {
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "url_pattern": "/destinations/{resp0_destination_id}"
+        }
+      ],
+      "extra_config": {
+        "proxy": {
+          "sequential": true
+        }
+      }
+    },
+    {
+      "endpoint": "/fail",
+      "input_headers": [
+        "Accept"
+      ],
+      "backend": [
+        {
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "url_pattern": "/user/1",
+          "group": "user"
+        },
+        {
+          "host": [
+            "http://fake_url_that_should_not_resolve.tld"
+          ],
+          "url_pattern": "/",
+          "group": "none"
+        }
+      ]
+    },
+    {
+      "endpoint": "/public",
+      "input_headers": [
+        "Accept"
+      ],
+      "backend": [
+        {
+          "host": [
+            "https://api.github.com"
+          ],
+          "url_pattern": "/users/jbactad",
+          "allow": [
+            "avatar_url",
+            "name",
+            "company",
+            "blog",
+            "location",
+            "mail",
+            "hireable",
+            "followers",
+            "public_repos",
+            "public_gists"
+          ],
+          "mapping": {
+            "blog": "website"
+          },
+          "group": "github"
+        }
+      ]
+    },
+    {
+      "endpoint": "/private/auth0",
+      "input_headers": [
+        "Accept"
+      ],
+      "backend": [
+        {
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "url_pattern": "/user/1"
+        }
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "audience": [
+            "http://api.example.com"
+          ],
+          "roles_key": "roles",
+          "roles": [
+            "user",
+            "admin"
+          ],
+          "jwk_url": "https://albert-test.auth0.com/.well-known/jwks.json"
+        }
+      }
+    },
+    {
+      "endpoint": "/private/custom",
+      "input_headers": [
+        "Accept"
+      ],
+      "backend": [
+        {
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "url_pattern": "/user/1"
+        }
+      ],
+      "extra_config": {
+        "auth/validator": {
+          "alg": "HS256",
+          "audience": [
+            "http://api.example.com"
+          ],
+          "roles_key": "roles",
+          "issuer": "https://krakend.io",
+          "roles": [
+            "role_a",
+            "role_c"
+          ],
+          "jwk_url": "http://fake_api:8080/jwk/symmetric",
+          "disable_jwk_security": true
+        }
+      }
+    },
+    {
+      "endpoint": "/token",
+      "input_headers": [
+        "Accept"
+      ],
+      "backend": [
+        {
+          "host": [
+            "http://fake_api:8080"
+          ],
+          "url_pattern": "/token",
+          "encoding": "json"
+        }
+      ],
+      "extra_config": {
+        "auth/signer": {
+          "alg": "HS256",
+          "kid": "sim2",
+          "keys_to_sign": [
+            "access_token",
+            "refresh_token"
+          ],
+          "jwk_url": "http://fake_api:8080/jwk/symmetric",
+          "disable_jwk_security": true
+        }
+      }
+    }
+  ],
+  "private": []
+}

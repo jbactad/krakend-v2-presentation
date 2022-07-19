@@ -1,0 +1,35 @@
+{
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "port": 8081,
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "output_encoding": "json",
+  "extra_config": {"$schema":"https://www.krakend.io/schema/service_extra_config.json","auth/revoker":{"N":10000000,"P":1e-7,"TTL":1500,"hash_name":"optimal","port":1234,"token_keys":["jti"]},"security/cors":{"allow_headers":["Origin","Authorization","Content-Type","Accept"],"allow_methods":["POST","GET"],"allow_origins":["http://localhost:8080","http://localhost:3000","http://192.168.99.100:3000"],"expose_headers":["Content-Length","Content-Type"],"max_age":"12h"},"telemetry/logging":{"level":"DEBUG","prefix":"[KRAKEND]","stdout":true,"syslog":false},"telemetry/metrics":{"collection_time":"30s","listen_address":":8090"}},
+  "endpoints": [
+    
+      
+      {"backend":[{"allow":["campaigns"],"host":["http://fake_api:8080"],"url_pattern":"/shop/campaigns"},{"allow":["products"],"extra_config":{"qos/ratelimit/proxy":{"capacity":1,"max_rate":1}},"host":["http://fake_api:8080"],"url_pattern":"/shop/products"}],"endpoint":"/splash","extra_config":{"qos/ratelimit/router":{"max_rate":2}},"input_headers":["Accept"]}
+    
+      ,
+      {"backend":[{"allow":["destination_id"],"host":["http://fake_api:8080"],"url_pattern":"/hotels/{id}"},{"host":["http://fake_api:8080"],"url_pattern":"/destinations/{resp0_destination_id}"}],"endpoint":"/sequential/{id}","extra_config":{"proxy":{"sequential":true}},"input_headers":["Accept"]}
+    
+      ,
+      {"backend":[{"group":"user","host":["http://fake_api:8080"],"url_pattern":"/user/1"},{"group":"none","host":["http://fake_url_that_should_not_resolve.tld"],"url_pattern":"/"}],"endpoint":"/fail","input_headers":["Accept"]}
+    
+      ,
+      {"backend":[{"allow":["avatar_url","name","company","blog","location","mail","hireable","followers","public_repos","public_gists"],"group":"github","host":["https://api.github.com"],"mapping":{"blog":"website"},"url_pattern":"/users/jbactad"}],"endpoint":"/public","input_headers":["Accept"]}
+    
+      ,
+      {"backend":[{"host":["http://fake_api:8080"],"url_pattern":"/user/1"}],"endpoint":"/private/auth0","extra_config":{"auth/validator":{"alg":"RS256","audience":["http://api.example.com"],"jwk_url":"https://albert-test.auth0.com/.well-known/jwks.json","roles":["user","admin"],"roles_key":"roles"}},"input_headers":["Accept"]}
+    
+      ,
+      {"backend":[{"host":["http://fake_api:8080"],"url_pattern":"/user/1"}],"endpoint":"/private/custom","extra_config":{"auth/validator":{"alg":"HS256","audience":["http://api.example.com"],"disable_jwk_security":true,"issuer":"https://krakend.io","jwk_url":"http://fake_api:8080/jwk/symmetric","roles":["role_a","role_c"],"roles_key":"roles"}},"input_headers":["Accept"]}
+    
+      ,
+      {"backend":[{"encoding":"json","host":["http://fake_api:8080"],"url_pattern":"/token"}],"endpoint":"/token","extra_config":{"auth/signer":{"alg":"HS256","disable_jwk_security":true,"jwk_url":"http://fake_api:8080/jwk/symmetric","keys_to_sign":["access_token","refresh_token"],"kid":"sim2"}},"input_headers":["Accept"]}
+    
+    
+    
+  ]
+}
