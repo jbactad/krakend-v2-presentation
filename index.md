@@ -64,7 +64,6 @@ Notes:
 <br/>
 <br/>
 <br/>
-<br/>
 
 _\*As long as you didn't do some crazy internal modification in your api gateway_
 
