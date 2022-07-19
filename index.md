@@ -136,4 +136,4 @@ Note:
 
 # _Thank you!_
 
-[Source code and presentation](https://somewhere)
+ [Source code](https://github.com/jbactad/krakend-v2-presentation)
