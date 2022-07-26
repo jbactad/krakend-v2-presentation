@@ -5,6 +5,18 @@ paginate: true
 backgroundColor: #fff
 backgroundImage: url('https://marp.app/assets/hero-background.svg')
 marp: true
+style: |
+    section.movetov2 em {
+      font-size: 0.7em;
+    }
+    section.questions p {
+        text-align: center;
+    }
+    section.questions img {
+       vertical-align: middle;
+       width: 150px;
+       height: 150px;
+    }
 ---
 
 ![bg left:40% 80%](https://www.krakend.io/images/logo-krakend.svg)
@@ -34,6 +46,8 @@ Notes:
 
 ---
 
+<!-- _class: movetov2 -->
+
 # What is up with v2?
 
 -   Request and Response modifier plugins
@@ -54,18 +68,21 @@ Notes:
 
 ---
 
+<!-- _class: movetov2 -->
+
 # Why move to v2 IMHO?
 
 -   Easier to upgrade for future releases
 -   Included a lot of security fixes
--   Build slimmer and cleaner api gateways
--   \*Migration should be easy with [Migration Guide](https://www.krakend.io/docs/configuration/migrating/)
+-   \*Build slimmer and cleaner api gateways
+-   \*\*Migration should be easy with [Migration Guide](https://www.krakend.io/docs/configuration/migrating/)
 
 <br/>
 <br/>
 <br/>
 
-_\*As long as you didn't do some crazy internal modification in your api gateway_
+_\*Make sure to use the binary instead of compiling krakend_
+_\*\*As long as you didn't do some crazy internal modification in your api gateway_
 
 <!--
 Notes:
@@ -105,6 +122,7 @@ Note:
 -   Unable to build plugin with golang alpine
 -   I don't know if I should write a custom plugin?
 -   My configuration isn't working
+-   Why nothing works in v1.4?
 
 <!--
  Notes:
@@ -133,6 +151,14 @@ Note:
 
 ---
 
+<!-- _class: questions -->
+
+# Questions?
+
+🤔
+
+---
+
 # _Thank you!_
 
- [Source code](https://github.com/jbactad/krakend-v2-presentation)
+[Source code](https://github.com/jbactad/krakend-v2-presentation)
