@@ -1,0 +1,39 @@
+GET http://localhost:8080/splash?lat=25&lon=52
+Accept: application/json
+Authorization: Bearer token
+
+###
+
+GET http://localhost:8080/splash?lat=25.1&lon=52.1
+Accept: application/json
+Authorization: Bearer token
+
+###
+
+GET http://localhost:8080/splash?lat=25.1&lon=52.1
+Accept: application/json
+Authorization: 1
+
+###
+
+GET http://localhost:8080/splash?lat=25.1&lon=52.1
+Accept: application/json
+
+###
+
+GET http://localhost:8080/splash?lat=0&lon=0
+Accept: application/json
+Authorization: Bearer token
+
+###
+
+GET http://localhost:8080/private/auth-to-talabat
+Accept: application/json
+Authorization: Bearer pTpPHQTypj5q2I0eGuRv-Jt3bZsdhRGbr4R-7IxRXoA0qwXWxHt_Us3mVIvO3lmV4fa-FdzSdGDWAoWyKmtJu734U42oXxEl18xkOGOUcK5i4x8rSJIIDPXiRk9UCkr_hLPGKZ2Mz-d4IQFTyyRDZ9lOpzhahln0h5LT2JaO06p2-LwzcwR9hO80-jNRs36mRhY7ZKWYOrNsKDmeaX5X_rgs0e0hkn2BJUTQYMxf1m6a26xPhGhXD7XwmdgYY45Q-6ZcCx_pf1H7JqfT2W_vwDkgcJgCrLtR5nY7ZXS_ceWhU6LQ3HtxlWVsPmhRzZcbSUzzG3DZT4b8-QrB85vI2jG2LVT2uCyDW1iU6sGCrugkjxsRdvjuvjq2axtbUcGD7grjvG8CR7uKYtMVSA--FA5gNJ5VhFeygGQya-CfzB0uaTspXtkOocLrkDYPP4MhFPMEWdGY-fjo1FOYaIjbjYzrR1njOyJqRkqHZ5BvvO2dkPt-Y7BBKT7Sg5DZNteFaQT3VOFZlLtkn2zYP6oz9WAR7LxfKDde27DCqmjrosPkMTcoJYgz-4Lkb0OSPRBMvlerBGt1ZnMW3Oj1MmiX-vpYxQ2qISbRiW3QAtEyYWfA_x0_FheQThQCjurzkqa4bWunNQ
+
+###
+
+GET http://localhost:8080/filefroms3
+Accept: application/json
+
+###

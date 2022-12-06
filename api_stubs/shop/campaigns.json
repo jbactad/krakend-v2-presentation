@@ -1,7 +1,7 @@
 {
   "$schema": "https://gist.githubusercontent.com/jbactad/2fdd188cfbd924f91d180dcf71c4b07c/raw/25aaa773208be3ff535b06500cc032bf4328ecc2/stub.json",
   "request": {
-    "url": "/shop/campaigns",
+    "urlPath": "/shop/campaigns",
     "headers": {
       "Accept": {
         "equalTo": "application/json"

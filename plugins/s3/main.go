@@ -26,10 +26,12 @@ func (r registerer) RegisterLogger(v interface{}) {
 	logger.Debug(ClientRegisterer, "client plugin loaded!!!")
 }
 
-func (r registerer) RegisterClients(f func(
-	name string,
-	handler func(context.Context, map[string]interface{}) (http.Handler, error),
-)) {
+func (r registerer) RegisterClients(
+	f func(
+		name string,
+		handler func(context.Context, map[string]interface{}) (http.Handler, error),
+	),
+) {
 	f(string(r), r.registerClients)
 }
 
@@ -54,25 +56,28 @@ func (r registerer) registerClients(ctx context.Context, extra map[string]interf
 	}
 
 	// return the actual handler wrapping or your custom logic so it can be used as a replacement for the default http client
-	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		ctx2 := req.Context()
-		k := strings.TrimPrefix(req.URL.Path, "/")
-		logger.Info(fmt.Sprintf("Fetching file from s3 bucket %s with key %s", cfg.Bucket, k))
+	return http.HandlerFunc(
+		func(w http.ResponseWriter, req *http.Request) {
+			c := req.Context()
+			logger.Info("S3 path", req.URL.Path)
+			k := strings.TrimPrefix(req.URL.Path, "/")
+			logger.Info(fmt.Sprintf("Fetching file from s3 bucket %s with key %s", cfg.Bucket, k))
 
-		b, err := s.GetBytes(ctx2, cfg.Bucket, k)
-		if err != nil {
-			logger.Info(fmt.Sprintf("error getting content from s3, returning 404 %#v", err))
-			w.WriteHeader(404)
-			fmt.Fprintf(w, "Not found")
-			return
-		}
+			b, err := s.GetBytes(c, cfg.Bucket, k)
+			if err != nil {
+				logger.Info(fmt.Sprintf("error getting content from s3, returning 404 %s", err.Error()))
+				w.WriteHeader(404)
+				fmt.Fprintf(w, "Not found")
+				return
+			}
 
-		_, err = w.Write(b)
-		if err != nil {
-			logger.Info("error writing content to body, returning 500")
-			w.WriteHeader(500)
-		}
-	}), nil
+			_, err = w.Write(b)
+			if err != nil {
+				logger.Info("error writing content to body, returning 500")
+				w.WriteHeader(500)
+			}
+		},
+	), nil
 }
 
 func init() {

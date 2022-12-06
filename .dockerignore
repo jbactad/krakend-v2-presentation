@@ -1,0 +1,11 @@
+.vscode
+.dockerignore
+.docker
+api_stubs
+/bin/
+Dockerfile
+.gitignore
+api.http
+docker-compose.yml
+LICENSE
+README.md

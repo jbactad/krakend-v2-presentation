@@ -19,7 +19,7 @@
       "listen_address": ":8090"
     },
     "telemetry/logging": {
-      "level": "INFO",
+      "level": "DEBUG",
       "prefix": "[KRAKEND]",
       "syslog": false,
       "stdout": true,
@@ -62,7 +62,12 @@
     {
       "endpoint": "/splash",
       "input_headers": [
-        "Accept"
+        "Accept",
+        "Authorization"
+      ],
+      "input_query_strings": [
+        "lat",
+        "lon"
       ],
       "backend": [
         {
@@ -94,6 +99,17 @@
             "products"
           ],
           "extra_config": {
+            "validation/cel": [
+              {
+                "check_expr": "size(req_headers['Authorization']) > 0 && req_headers['Authorization'][0].contains('Bearer ')"
+              },
+              {
+                "check_expr": "double(req_querystring.lat[0]) != 0.0 && double(req_querystring.lat[0]) >= -90.0 && double(req_querystring.lat[0]) <= 90.0"
+              },
+              {
+                "check_expr": "double(req_querystring.lon[0]) != 0.0 && double(req_querystring.lon[0]) >= -180.0 && double(req_querystring.lon[0]) <= 180.0"
+              }
+            ],
             "qos/ratelimit/proxy": {
               "max_rate": 1,
               "capacity": 1
@@ -103,6 +119,7 @@
       ],
       "extra_config": {
         "qos/ratelimit/router": {
+          "key": "splash-rate-limiter",
           "max_rate": 2
         }
       }
@@ -243,7 +260,9 @@
       ],
       "extra_config": {
         "plugin/req-resp-modifier": {
-          "name": ["auth-to-apikey-request"]
+          "name": [
+            "auth-to-apikey-request"
+          ]
         },
         "auth/validator": {
           "alg": "HS256",
@@ -294,13 +313,16 @@
       "backend": [
         {
           "host": [
-            "s3://test-bucket"
+            "http://test-bucket"
           ],
           "disable_host_sanitize": true,
           "url_pattern": "/sample.json",
           "encoding": "json",
           "group": "s3content",
           "extra_config": {
+            "plugin/req-resp-modifier": {
+              "name": ["example-response-modifier"]
+            },
             "plugin/http-client": {
               "name": "s3",
               "bucket": "test-bucket"
